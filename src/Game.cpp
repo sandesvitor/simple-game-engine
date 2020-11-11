@@ -4,6 +4,7 @@
 
 Manager manager;
 auto& Pokeball(manager.addGameObject("Pokeball"));
+auto& Grass(manager.addGameObject("Grass"));
 
 Game::Game()
 {}
@@ -38,6 +39,12 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
     Pokeball.addComponent<Transform>();
     Pokeball.addComponent<Sprite>("assets/pokeball.png", renderer);
 
+    Grass.addComponent<Transform>();
+    Grass.addComponent<Sprite>("assets/grass.png", renderer);
+    
+    Grass.getComponent<Transform>().setPosition(new Vector2(80.0f, 400.0f));
+    Grass.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
+
     isRunning = true;
 }
 
@@ -52,6 +59,7 @@ void Game::handleEvents()
             case SDL_KEYDOWN:
                 /* Check the SDLKey values and move change the coords */
                 switch( event.key.keysym.sym ){
+                    // ARROW UP - ARROW DOWN - ARROW RIGHT - ARROW LEFT
                     case SDLK_LEFT:
                         SDL_Log("LEFT");
                         break;
@@ -64,6 +72,24 @@ void Game::handleEvents()
                     case SDLK_DOWN:
                         SDL_Log("DOWN");
                         break;
+                    
+                    // W - S - D - A
+                    case SDLK_a:
+                        SDL_Log("LEFT");
+                        break;
+                    case SDLK_d:
+                        SDL_Log("RIGHT");
+                        break;
+                    case SDLK_w:
+                        SDL_Log("UP");
+                        break;
+                    case SDLK_s:
+                        SDL_Log("DOWN");
+                        break;
+
+
+
+
                     default:
                         break;
                 }
@@ -77,6 +103,7 @@ void Game::handleEvents()
 void Game::update()
 {
     Pokeball.getComponent<Sprite>().update();
+    Grass.getComponent<Sprite>().update();
 
 
     // Entities ==> components:
@@ -91,6 +118,7 @@ void Game::render()
     SDL_RenderClear(renderer);
 
     Pokeball.getComponent<Sprite>().draw();
+    Grass.getComponent<Sprite>().draw();
 
 
     SDL_RenderPresent(renderer);
