@@ -13,7 +13,7 @@ Manager manager;
 auto& PokeBall(manager.addGameObject("Pokeball"));
 
 Pokeball.addComponent<Transform>();
-Transform* _transform = Pokeball.getComponent<Trasnform>();
+Transform* _transform = Pokeball.getComponent<Transform>();
 
 _transform.setPosition(new Vector2(100.0f, 20.0f)) 
 // default == Vector2(x = 0.0f, y = 0.0f);

@@ -111,7 +111,7 @@ class GameObject
 };
 
 
-class Manager
+class GameObjectFactory
 {
     private:
         std::vector<std::unique_ptr<GameObject>> gameObjects;
@@ -140,9 +140,14 @@ class Manager
         GameObject& addGameObject(const std::string& name)
         {
             GameObject* gameObject = new GameObject(name);
+
             std::unique_ptr<GameObject> uPtr{ gameObject };
             gameObjects.emplace_back(std::move(uPtr));
 
             return *gameObject;
+        }
+        
+        ~GameObjectFactory(){
+            std::cout << "[GameObjectFactory] Destroyed!" << std::endl;
         }
 };

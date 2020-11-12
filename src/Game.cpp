@@ -2,9 +2,8 @@
 #include "ECS/Components.hpp"
 
 
-Manager manager;
-auto& Pokeball(manager.addGameObject("Pokeball"));
-auto& Grass(manager.addGameObject("Grass"));
+GameObjectFactory gFactory;
+auto& Pokeball(gFactory.addGameObject("Pokeball"));
 
 Game::Game()
 {}
@@ -38,12 +37,8 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
 
     Pokeball.addComponent<Transform>();
     Pokeball.addComponent<Sprite>("assets/pokeball.png", renderer);
-
-    Grass.addComponent<Transform>();
-    Grass.addComponent<Sprite>("assets/grass.png", renderer);
-    
-    Grass.getComponent<Transform>().setPosition(new Vector2(80.0f, 400.0f));
-    Grass.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
+    Pokeball.getComponent<Transform>().setPosition(new Vector2D(0.0f, 0.0f));
+    Pokeball.getComponent<Transform>().setScale(new Vector2D(4.0f, 4.0f));
 
     isRunning = true;
 }
@@ -62,15 +57,19 @@ void Game::handleEvents()
                     // ARROW UP - ARROW DOWN - ARROW RIGHT - ARROW LEFT
                     case SDLK_LEFT:
                         SDL_Log("LEFT");
+                        Pokeball.getComponent<Transform>().translateX(-30.0f);
                         break;
                     case SDLK_RIGHT:
                         SDL_Log("RIGHT");
+                        Pokeball.getComponent<Transform>().translateX(30.0f);
                         break;
                     case SDLK_UP:
                         SDL_Log("UP");
+                        Pokeball.getComponent<Transform>().translateY(-30.0f);
                         break;
                     case SDLK_DOWN:
                         SDL_Log("DOWN");
+                        Pokeball.getComponent<Transform>().translateY(30.0f);
                         break;
                     
                     // W - S - D - A
@@ -103,11 +102,11 @@ void Game::handleEvents()
 void Game::update()
 {
     Pokeball.getComponent<Sprite>().update();
-    Grass.getComponent<Sprite>().update();
+    Pokeball.getComponent<Transform>().update();
 
 
     // Entities ==> components:
-    manager.update();
+    gFactory.update();
 }
 
 void Game::clear()
@@ -118,7 +117,6 @@ void Game::render()
     SDL_RenderClear(renderer);
 
     Pokeball.getComponent<Sprite>().draw();
-    Grass.getComponent<Sprite>().draw();
 
 
     SDL_RenderPresent(renderer);
