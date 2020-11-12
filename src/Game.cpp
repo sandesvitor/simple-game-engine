@@ -4,7 +4,9 @@
 
 Manager manager;
 auto& Pokeball(manager.addGameObject("Pokeball"));
-auto& Grass(manager.addGameObject("Grass"));
+auto& Grass_1(manager.addGameObject("Grass_1"));
+auto& Grass_2(manager.addGameObject("Grass_2"));
+auto& Monster(manager.addGameObject("Monster"));
 
 Game::Game()
 {}
@@ -38,12 +40,23 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
 
     Pokeball.addComponent<Transform>();
     Pokeball.addComponent<Sprite>("assets/pokeball.png", renderer);
+    Pokeball.getComponent<Transform>().setPosition(new Vector2(200.0f, 0.0f));
+    Pokeball.getComponent<Transform>().setScale(new Vector2(4.0f, 4.0f));
 
-    Grass.addComponent<Transform>();
-    Grass.addComponent<Sprite>("assets/grass.png", renderer);
+    Monster.addComponent<Transform>();
+    Monster.addComponent<Sprite>("assets/MonsterCorrupted.png", renderer);
+    Monster.getComponent<Transform>().setPosition(new Vector2(400.0f, 200.0f));
+    Monster.getComponent<Transform>().setScale(new Vector2(6.0f, 6.0f));
+
+    Grass_1.addComponent<Transform>();
+    Grass_1.addComponent<Sprite>("assets/grass.png", renderer);
+    Grass_1.getComponent<Transform>().setPosition(new Vector2(80.0f, 400.0f));
+    Grass_1.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
     
-    Grass.getComponent<Transform>().setPosition(new Vector2(80.0f, 400.0f));
-    Grass.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
+    Grass_2.addComponent<Transform>();
+    Grass_2.addComponent<Sprite>("assets/grass.png", renderer);
+    Grass_2.getComponent<Transform>().setPosition(new Vector2(80.0f, 500.0f));
+    Grass_2.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
 
     isRunning = true;
 }
@@ -103,7 +116,9 @@ void Game::handleEvents()
 void Game::update()
 {
     Pokeball.getComponent<Sprite>().update();
-    Grass.getComponent<Sprite>().update();
+    Grass_1.getComponent<Sprite>().update();
+    Grass_2.getComponent<Sprite>().update();
+    Monster.getComponent<Sprite>().update();
 
 
     // Entities ==> components:
@@ -118,7 +133,9 @@ void Game::render()
     SDL_RenderClear(renderer);
 
     Pokeball.getComponent<Sprite>().draw();
-    Grass.getComponent<Sprite>().draw();
+    Grass_1.getComponent<Sprite>().draw();
+    Grass_2.getComponent<Sprite>().draw();
+    Monster.getComponent<Sprite>().draw();
 
 
     SDL_RenderPresent(renderer);

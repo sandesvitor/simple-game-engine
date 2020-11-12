@@ -24,16 +24,20 @@ class Transform : public Component
 
     void setPosition(Vector2 *newPosition)
     {
+        free(this->position); // AQUI É "FREE()" OU DELETE ????
         this->position = newPosition;
     }
 
     void setScale(Vector2 *newScale)
     {
+        free(this->scale); // AQUI É "FREE()" OU DELETE ????
         this->scale = newScale;
     }
 
     ~Transform()
     {
+        delete this->position;
+        delete this->scale;
         std::cout << "[Transform] Component Destroyed" << std::endl;
     }
 };
