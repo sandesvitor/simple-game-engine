@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/libs/SDL2"
+                "${workspaceFolder}/libs/SDL2",
+                "${workspaceFolder}/src/ECS",
+                "${workspaceFolder}/src/Physics"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

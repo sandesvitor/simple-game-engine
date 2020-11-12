@@ -13,17 +13,21 @@ class Vector2D
         }
     
 
-        // overwriting add and subtraction operators:
-        inline Vector2D operator+(const Vector2D& v2) const {
+        // OVERLOADING add and subtraction operators:
+        Vector2D operator + (const Vector2D& v2) {
             return Vector2D(this->x + v2.x, this->y + v2.y);
         }
         
-        inline Vector2D operator-(const Vector2D& v2) const {
+        Vector2D operator - (const Vector2D& v2) {
             return Vector2D(this->x - v2.x, this->y - v2.y);
         }
         
-        inline Vector2D operator*(const float scalar) const {
+        Vector2D operator * (const float& scalar) {
             return Vector2D(this->x * scalar, this->y * scalar);
+        }
+        
+        Vector2D operator / (const float& divider) {
+            return Vector2D(this->x / divider, this->y / divider);
         }
 
         ~Vector2D(){

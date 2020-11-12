@@ -140,8 +140,6 @@ class GameObjectFactory
         GameObject& addGameObject(const std::string& name)
         {
             GameObject* gameObject = new GameObject(name);
-            
-            // gameObject->addComponent<Transform>(); ==> IMPLEMENTAR DEPOIS (COMPONENTE DEFAULT "TRANSFORM")
 
             std::unique_ptr<GameObject> uPtr{ gameObject };
             gameObjects.emplace_back(std::move(uPtr));

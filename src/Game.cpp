@@ -4,9 +4,6 @@
 
 GameObjectFactory gFactory;
 auto& Pokeball(gFactory.addGameObject("Pokeball"));
-auto& Grass_1(gFactory.addGameObject("Grass_1"));
-auto& Grass_2(gFactory.addGameObject("Grass_2"));
-auto& Monster(gFactory.addGameObject("Monster"));
 
 Game::Game()
 {}
@@ -40,23 +37,8 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
 
     Pokeball.addComponent<Transform>();
     Pokeball.addComponent<Sprite>("assets/pokeball.png", renderer);
-    Pokeball.getComponent<Transform>().setPosition(new Vector2D(200.0f, 0.0f));
+    Pokeball.getComponent<Transform>().setPosition(new Vector2D(0.0f, 0.0f));
     Pokeball.getComponent<Transform>().setScale(new Vector2D(4.0f, 4.0f));
-
-    Monster.addComponent<Transform>();
-    Monster.addComponent<Sprite>("assets/MonsterCorrupted.png", renderer);
-    Monster.getComponent<Transform>().setPosition(new Vector2D(400.0f, 200.0f));
-    Monster.getComponent<Transform>().setScale(new Vector2D(6.0f, 6.0f));
-
-    Grass_1.addComponent<Transform>();
-    Grass_1.addComponent<Sprite>("assets/grass.png", renderer);
-    Grass_1.getComponent<Transform>().setPosition(new Vector2D(80.0f, 400.0f));
-    Grass_1.getComponent<Transform>().setScale(new Vector2D(30.0f, 4.0f));
-    
-    Grass_2.addComponent<Transform>();
-    Grass_2.addComponent<Sprite>("assets/grass.png", renderer);
-    Grass_2.getComponent<Transform>().setPosition(new Vector2D(80.0f, 500.0f));
-    Grass_2.getComponent<Transform>().setScale(new Vector2D(30.0f, 4.0f));
 
     isRunning = true;
 }
@@ -75,15 +57,19 @@ void Game::handleEvents()
                     // ARROW UP - ARROW DOWN - ARROW RIGHT - ARROW LEFT
                     case SDLK_LEFT:
                         SDL_Log("LEFT");
+                        Pokeball.getComponent<Transform>().translateX(-30.0f);
                         break;
                     case SDLK_RIGHT:
                         SDL_Log("RIGHT");
+                        Pokeball.getComponent<Transform>().translateX(30.0f);
                         break;
                     case SDLK_UP:
                         SDL_Log("UP");
+                        Pokeball.getComponent<Transform>().translateY(-30.0f);
                         break;
                     case SDLK_DOWN:
                         SDL_Log("DOWN");
+                        Pokeball.getComponent<Transform>().translateY(30.0f);
                         break;
                     
                     // W - S - D - A
@@ -116,9 +102,7 @@ void Game::handleEvents()
 void Game::update()
 {
     Pokeball.getComponent<Sprite>().update();
-    Grass_1.getComponent<Sprite>().update();
-    Grass_2.getComponent<Sprite>().update();
-    Monster.getComponent<Sprite>().update();
+    Pokeball.getComponent<Transform>().update();
 
 
     // Entities ==> components:
@@ -133,9 +117,6 @@ void Game::render()
     SDL_RenderClear(renderer);
 
     Pokeball.getComponent<Sprite>().draw();
-    Grass_1.getComponent<Sprite>().draw();
-    Grass_2.getComponent<Sprite>().draw();
-    Monster.getComponent<Sprite>().draw();
 
 
     SDL_RenderPresent(renderer);

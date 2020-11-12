@@ -1,6 +1,7 @@
 #include <iostream>
 #include "libs/SDL2/SDL.h"
 #include "libs/SDL2/SDL_image.h"
+#include "Physics/Vector2D.hpp"
 
 #include "Game.hpp"
 
@@ -8,7 +9,8 @@
 Game *game = nullptr;
 
 int main(int argc, char *argv[]) {
-    
+
+
     std::cout << "                                                       \n"
                 "   ███████╗██╗███╗   ███╗██████╗ ██╗     ███████╗       \n"  
                 "   ██╔════╝██║████╗ ████║██╔══██╗██║     ██╔════╝       \n"   

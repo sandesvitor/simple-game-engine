@@ -20,6 +20,7 @@ class Transform : public Component
 
     void update() override
     {
+        std::cout << this->position->x << ", " << this->position->y << std::endl;        
     }
 
     void setPosition(Vector2D *newPosition)
@@ -32,6 +33,14 @@ class Transform : public Component
     {
         free(this->scale); // AQUI É "FREE()" OU DELETE ????
         this->scale = newScale;
+    }
+
+    void translateX(float horizontal){
+        this->position->x += horizontal;
+    }
+
+    void translateY(float vertical){
+        this->position->y += vertical;
     }
 
     ~Transform()
