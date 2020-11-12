@@ -2,11 +2,11 @@
 #include "ECS/Components.hpp"
 
 
-Manager manager;
-auto& Pokeball(manager.addGameObject("Pokeball"));
-auto& Grass_1(manager.addGameObject("Grass_1"));
-auto& Grass_2(manager.addGameObject("Grass_2"));
-auto& Monster(manager.addGameObject("Monster"));
+GameObjectFactory gFactory;
+auto& Pokeball(gFactory.addGameObject("Pokeball"));
+auto& Grass_1(gFactory.addGameObject("Grass_1"));
+auto& Grass_2(gFactory.addGameObject("Grass_2"));
+auto& Monster(gFactory.addGameObject("Monster"));
 
 Game::Game()
 {}
@@ -40,23 +40,23 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
 
     Pokeball.addComponent<Transform>();
     Pokeball.addComponent<Sprite>("assets/pokeball.png", renderer);
-    Pokeball.getComponent<Transform>().setPosition(new Vector2(200.0f, 0.0f));
-    Pokeball.getComponent<Transform>().setScale(new Vector2(4.0f, 4.0f));
+    Pokeball.getComponent<Transform>().setPosition(new Vector2D(200.0f, 0.0f));
+    Pokeball.getComponent<Transform>().setScale(new Vector2D(4.0f, 4.0f));
 
     Monster.addComponent<Transform>();
     Monster.addComponent<Sprite>("assets/MonsterCorrupted.png", renderer);
-    Monster.getComponent<Transform>().setPosition(new Vector2(400.0f, 200.0f));
-    Monster.getComponent<Transform>().setScale(new Vector2(6.0f, 6.0f));
+    Monster.getComponent<Transform>().setPosition(new Vector2D(400.0f, 200.0f));
+    Monster.getComponent<Transform>().setScale(new Vector2D(6.0f, 6.0f));
 
     Grass_1.addComponent<Transform>();
     Grass_1.addComponent<Sprite>("assets/grass.png", renderer);
-    Grass_1.getComponent<Transform>().setPosition(new Vector2(80.0f, 400.0f));
-    Grass_1.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
+    Grass_1.getComponent<Transform>().setPosition(new Vector2D(80.0f, 400.0f));
+    Grass_1.getComponent<Transform>().setScale(new Vector2D(30.0f, 4.0f));
     
     Grass_2.addComponent<Transform>();
     Grass_2.addComponent<Sprite>("assets/grass.png", renderer);
-    Grass_2.getComponent<Transform>().setPosition(new Vector2(80.0f, 500.0f));
-    Grass_2.getComponent<Transform>().setScale(new Vector2(30.0f, 4.0f));
+    Grass_2.getComponent<Transform>().setPosition(new Vector2D(80.0f, 500.0f));
+    Grass_2.getComponent<Transform>().setScale(new Vector2D(30.0f, 4.0f));
 
     isRunning = true;
 }
@@ -122,7 +122,7 @@ void Game::update()
 
 
     // Entities ==> components:
-    manager.update();
+    gFactory.update();
 }
 
 void Game::clear()
