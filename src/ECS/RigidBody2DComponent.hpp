@@ -25,6 +25,10 @@ class RigidBody2D : public Component
 
         void init() override
         {
+            // GAMBIARRA PRA INSERIR O TRANSFORM COMO PRIMEIRO COMPONENTE!
+            if(!gameObject->hasComponent<Transform>()){
+                gameObject->addComponent<Transform>();
+            }
             this->transform = &gameObject->getComponent<Transform>();
             this->position = this->transform->position;
             this->velocity = new Vector2D();

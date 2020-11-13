@@ -7,7 +7,6 @@
 #include <bitset>
 #include <array>
 
-
 class Component;
 class GameObject;
 
@@ -49,7 +48,6 @@ class Component
 class GameObject
 {
     private:
-        std::string name;
         bool active = true;
         std::vector<std::unique_ptr<Component>> components;
 
@@ -61,6 +59,8 @@ class GameObject
             this->name = name;
         }
 
+        std::string name;
+        
         void update(){
             for(auto& c : components) c->update();
         }
@@ -140,7 +140,7 @@ class GameObjectManager
         GameObject& addGameObject(const std::string& name)
         {
             GameObject* gameObject = new GameObject(name);
-
+    
             std::unique_ptr<GameObject> uPtr{ gameObject };
             gameObjects.emplace_back(std::move(uPtr));
 
@@ -148,6 +148,6 @@ class GameObjectManager
         }
         
         ~GameObjectManager(){
-            std::cout << "[GameObjectFactory] Destroyed!" << std::endl;
+            std::cout << "[GameObjectManager] Destroyed!" << std::endl;
         }
 };

@@ -10,7 +10,12 @@ class KeyboardController : public Component
         Transform *transform;
 
         void init() override {
-            transform = &gameObject->getComponent<Transform>();
+            // GAMBIARRA PRA INSERIR O TRANSFORM COMO PRIMEIRO COMPONENTE!
+            if(!gameObject->hasComponent<Transform>()){
+                gameObject->addComponent<Transform>();
+            }
+            
+            this->transform = &gameObject->getComponent<Transform>();
         }      
 
         void update() override {
@@ -58,6 +63,10 @@ class KeyboardController : public Component
         }
 
         ~KeyboardController(){
-            std::cout << "[KeyboardController] Component Destroyed!" << std::endl;
+            std::cout 
+                << "[KeyboardController] Component Destroyed - " 
+                << gameObject->name 
+                << " Game Object" 
+            <<std::endl;
         }
 };

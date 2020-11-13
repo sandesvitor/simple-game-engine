@@ -9,6 +9,9 @@ class Transform : public Component
         Vector2D* scale;
         Vector2D* velocity;
 
+        int height = 32;
+        int width = 32;
+
         float speed = 3.0f;
 
     Transform(){
@@ -48,6 +51,11 @@ class Transform : public Component
         delete this->velocity;
         delete this->position;
         delete this->scale;
-        std::cout << "[Transform] Component Destroyed" << std::endl;
+        
+        std::cout 
+            << "[Transform] Component Destroyed - " 
+            << gameObject->name 
+            << " Game Object" 
+        <<std::endl;
     }
 };

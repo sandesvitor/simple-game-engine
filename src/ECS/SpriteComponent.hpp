@@ -22,12 +22,21 @@ class Sprite : public Component
 
         void init() override
         {
+            // GAMBIARRA PRA INSERIR O TRANSFORM COMO PRIMEIRO COMPONENTE!
+            if(!gameObject->hasComponent<Transform>()){
+                gameObject->addComponent<Transform>();
+            }
+
+            
             this->transform = &gameObject->getComponent<Transform>();
 
-            srcRect.x = srcRect.y = 0;
-            srcRect.w = srcRect.h = 32;
-            destRect.w = 32 * this->transform->scale->x; 
-            destRect.h = 32 * this->transform->scale->y;
+            srcRect.x = this->transform->position->x;
+            srcRect.y = this->transform->position->y;
+            srcRect.w = this->transform->width;
+            srcRect.h = this->transform->height;
+            
+            destRect.w = this->transform->width * this->transform->scale->x; 
+            destRect.h = this->transform->height * this->transform->scale->y;
             destRect.x = this->transform->position->x;
             destRect.y = this->transform->position->y;
         }
@@ -46,6 +55,12 @@ class Sprite : public Component
         }
 
         ~Sprite(){
-            std::cout << "[Sprite] Component Destroyed" << std::endl;
+            SDL_DestroyTexture(this->texture);
+
+            std::cout 
+                << "[Sprite] Component Destroyed - " 
+                << gameObject->name 
+                << " Game Object" 
+            <<std::endl;
         }
 };
