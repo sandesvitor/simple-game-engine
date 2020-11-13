@@ -7,32 +7,24 @@ class Transform : public Component
     public:
         Vector2D* position;
         Vector2D* scale;
+        Vector2D* velocity;
 
-    // Same as UnityEngine.OnAwake
+        float speed = 3.0f;
 
-    Transform(){}
+    Transform(){
+        this->position = new Vector2D(0.0f, 0.0f);
+        this->scale = new Vector2D(1.0f, 1.0f);
+    }
 
     void init() override
     {
-        this->position = new Vector2D();
-        this->scale = new Vector2D(1.0f, 1.0f);
+        this->velocity = new Vector2D(0.0f, 0.0f);
     }
 
     void update() override
     {
-        std::cout << this->position->x << ", " << this->position->y << std::endl;        
-    }
-
-    void setPosition(Vector2D *newPosition)
-    {
-        free(this->position); // AQUI É "FREE()" OU DELETE ????
-        this->position = newPosition;
-    }
-
-    void setScale(Vector2D*newScale)
-    {
-        free(this->scale); // AQUI É "FREE()" OU DELETE ????
-        this->scale = newScale;
+        this->position->x += this->velocity->x * speed;
+        this->position->y += this->velocity->y * speed;
     }
 
     void translateX(float horizontal){
@@ -43,8 +35,17 @@ class Transform : public Component
         this->position->y += vertical;
     }
 
+    void reScaleX(float xScale){
+        this->scale->x += xScale;
+    }
+    
+    void reScaleY(float yScale){
+        this->scale->y += yScale;
+    }
+
     ~Transform()
     {
+        delete this->velocity;
         delete this->position;
         delete this->scale;
         std::cout << "[Transform] Component Destroyed" << std::endl;

@@ -111,7 +111,7 @@ class GameObject
 };
 
 
-class GameObjectFactory
+class GameObjectManager
 {
     private:
         std::vector<std::unique_ptr<GameObject>> gameObjects;
@@ -147,7 +147,7 @@ class GameObjectFactory
             return *gameObject;
         }
         
-        ~GameObjectFactory(){
+        ~GameObjectManager(){
             std::cout << "[GameObjectFactory] Destroyed!" << std::endl;
         }
 };

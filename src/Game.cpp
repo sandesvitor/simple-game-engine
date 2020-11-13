@@ -1,9 +1,9 @@
 #include "Game.hpp"
 #include "ECS/Components.hpp"
 
-
-GameObjectFactory gFactory;
-auto& Pokeball(gFactory.addGameObject("Pokeball"));
+SDL_Event Game::event;
+GameObjectManager gameObjectManager;
+auto& Pokeball(gameObjectManager.addGameObject("Pokeball"));
 
 Game::Game()
 {}
@@ -20,93 +20,47 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
         isRunning = false;
     }
 
-    window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
-    if(window == nullptr){
+    this->window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
+    if(this->window == nullptr){
         SDL_Log("Failed to create window: %s", SDL_GetError());
         isRunning = false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if(renderer == nullptr){
+    this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if(this->renderer == nullptr){
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         isRunning = false;
     }
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
 
 
 
     Pokeball.addComponent<Transform>();
-    Pokeball.addComponent<Sprite>("assets/pokeball.png", renderer);
-    Pokeball.getComponent<Transform>().setPosition(new Vector2D(0.0f, 0.0f));
-    Pokeball.getComponent<Transform>().setScale(new Vector2D(4.0f, 4.0f));
+    Pokeball.addComponent<Sprite>("assets/pokeball.png", this->renderer);
+    Pokeball.addComponent<KeyboardController>();
+    
 
     isRunning = true;
+    std::cout << "<<<<<<< GAME::INIT completed >>>>>>>" << std::endl;
 }
 
 void Game::handleEvents()
 {
-    SDL_Event event;
-    while(SDL_PollEvent(&event)){
-        switch( event.type ){
-            case SDL_QUIT:
-                isRunning = false;
-            /* Look for a keypress */
-            case SDL_KEYDOWN:
-                /* Check the SDLKey values and move change the coords */
-                switch( event.key.keysym.sym ){
-                    // ARROW UP - ARROW DOWN - ARROW RIGHT - ARROW LEFT
-                    case SDLK_LEFT:
-                        SDL_Log("LEFT");
-                        Pokeball.getComponent<Transform>().translateX(-30.0f);
-                        break;
-                    case SDLK_RIGHT:
-                        SDL_Log("RIGHT");
-                        Pokeball.getComponent<Transform>().translateX(30.0f);
-                        break;
-                    case SDLK_UP:
-                        SDL_Log("UP");
-                        Pokeball.getComponent<Transform>().translateY(-30.0f);
-                        break;
-                    case SDLK_DOWN:
-                        SDL_Log("DOWN");
-                        Pokeball.getComponent<Transform>().translateY(30.0f);
-                        break;
-                    
-                    // W - S - D - A
-                    case SDLK_a:
-                        SDL_Log("LEFT");
-                        break;
-                    case SDLK_d:
-                        SDL_Log("RIGHT");
-                        break;
-                    case SDLK_w:
-                        SDL_Log("UP");
-                        break;
-                    case SDLK_s:
-                        SDL_Log("DOWN");
-                        break;
+    SDL_PollEvent(&Game::event);
 
-
-
-
-                    default:
-                        break;
-                }
-            
-            default:
-                break;
-        }
+    switch(Game::event.type ){
+        case SDL_QUIT:
+            isRunning = false;
+        default:
+            break;
     }
+    
 }
 
 void Game::update()
 {
-    Pokeball.getComponent<Sprite>().update();
-    Pokeball.getComponent<Transform>().update();
-
-
-    // Entities ==> components:
-    gFactory.update();
+    gameObjectManager.update();
+    gameObjectManager.refresh();
 }
 
 void Game::clear()
@@ -114,18 +68,18 @@ void Game::clear()
 
 void Game::render()
 {
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(this->renderer);
 
     Pokeball.getComponent<Sprite>().draw();
 
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(this->renderer);
 }
 
 Game::~Game()
 {
-    SDL_DestroyRenderer(renderer);    
-    SDL_DestroyWindow(window);   
+    SDL_DestroyRenderer(this->renderer);    
+    SDL_DestroyWindow(this->window);   
     SDL_Quit();
     SDL_Log("Game Cleaned!");
 }
