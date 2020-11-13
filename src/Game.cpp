@@ -9,8 +9,7 @@ GameObjectManager gameObjectManager;
 GameObject& Pokeball(gameObjectManager.addGameObject("Pokeball"));
 GameObject& Wall(gameObjectManager.addGameObject("Wall"));
 
-SDL_Rect pokeRect;
-SDL_Rect wallRect;
+SDL_Rect debugRect;
 
 Game::Game()
 {}
@@ -38,19 +37,20 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         isRunning = false;
     }
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
-
 
 
     Pokeball.addComponent<Transform>();
-    Pokeball.addComponent<Collider>();
     Pokeball.addComponent<Sprite>("assets/pokeball.png", this->renderer);
+    Pokeball.addComponent<Collider>("[Tag]Player", this->renderer);
+    Pokeball.getComponent<Collider>().isDebugDrawActive = true;
+    Pokeball.getComponent<Transform>().position->x = 100.0f;
+    Pokeball.getComponent<Transform>().position->y = 100.0f;    
     Pokeball.addComponent<KeyboardController>();
 
     Wall.addComponent<Transform>();
-    Wall.addComponent<Collider>();
     Wall.addComponent<Sprite>("assets/grass.png", this->renderer);
-    Wall.getComponent<Transform>().scale->y = 10.0f;
+    Wall.addComponent<Collider>("[Tag]Obstacle", this->renderer);
+    Wall.getComponent<Collider>().isDebugDrawActive = true;
     Wall.getComponent<Transform>().position->x = 400.0f;
     Wall.getComponent<Transform>().position->y = 200.0f;    
 
@@ -77,8 +77,7 @@ void Game::update()
     gameObjectManager.update();
     gameObjectManager.refresh();
 
-    pokeRect = Pokeball.getComponent<Collider>().collider;
-    wallRect = Wall.getComponent<Collider>().collider;
+    debugRect = {250, 150, 200, 200};
 
     if(Collision::AABB(Pokeball.getComponent<Collider>().collider, Wall.getComponent<Collider>().collider)){
         std::cout << "Pokeball Hit The Wall!" << std::endl;

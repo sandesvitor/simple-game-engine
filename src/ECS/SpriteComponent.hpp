@@ -45,8 +45,8 @@ class Sprite : public Component
         {
             destRect.x = this->transform->position->x;
             destRect.y = this->transform->position->y;
-            destRect.w = 32 * this->transform->scale->x; 
-            destRect.h = 32 * this->transform->scale->y;
+            destRect.w = this->transform->width * this->transform->scale->x; 
+            destRect.h = this->transform->height * this->transform->scale->y;
         }
 
         void draw() override
